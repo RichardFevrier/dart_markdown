@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../extensions.dart';
 import '../line.dart';
 import '../parsers/block_parser.dart';
@@ -69,7 +69,7 @@ class IndentedCodeBlockSyntax extends BlockSyntax {
   BlockElement parse(BlockParser parser) {
     final childSource = parseChildLines(parser);
 
-    final codeLines = childSource.lines.map<Node>((line) {
+    final codeLines = childSource.lines.map<MarkdownNode>((line) {
       var span = line.content;
       if (line.lineEnding != null) {
         span = span.union(line.lineEnding!);

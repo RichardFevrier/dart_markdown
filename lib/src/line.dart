@@ -4,7 +4,7 @@
 
 import 'package:source_span/source_span.dart';
 
-import 'ast.dart';
+import 'markdown/markdown_ast.dart';
 import 'extensions.dart';
 import 'patterns.dart';
 
@@ -100,14 +100,14 @@ extension LineListExtensions on List<Line> {
   /// Set [popLineEnding] to `true` to remove the line ending of the last [Line]
   /// and return this lineEnding in [_SourceFromLineList].
   _SourceFromLineList toNodes(
-    Node Function(SourceSpan span) transfer, {
+    MarkdownNode Function(SourceSpan span) transfer, {
     bool trimLeft = false,
     bool trimLeading = false,
     bool trimTrailing = false,
     bool popLineEnding = false,
   }) {
     if (isEmpty) {
-      return _SourceFromLineList(<Node>[], null);
+      return _SourceFromLineList(<MarkdownNode>[], null);
     }
     var spans = toSourceSpans();
 
@@ -136,7 +136,7 @@ extension LineListExtensions on List<Line> {
       spans.add(lineEnding);
     }
 
-    final nodes = spans.concatWhilePossible().map<Node>(transfer).toList();
+    final nodes = spans.concatWhilePossible().map<MarkdownNode>(transfer).toList();
     return _SourceFromLineList(nodes, popLineEnding ? lineEnding : null);
   }
 
@@ -146,7 +146,7 @@ extension LineListExtensions on List<Line> {
 }
 
 class _SourceFromLineList {
-  final List<Node> nodes;
+  final List<MarkdownNode> nodes;
   final SourceSpan? lineEnding;
 
   _SourceFromLineList(this.nodes, this.lineEnding);

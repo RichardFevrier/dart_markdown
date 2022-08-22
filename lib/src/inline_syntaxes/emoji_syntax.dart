@@ -5,7 +5,7 @@
 import 'package:source_span/source_span.dart';
 
 import '../../assets/emojis.dart';
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../charcode.dart';
 import '../extensions.dart';
 import '../parsers/inline_parser.dart';

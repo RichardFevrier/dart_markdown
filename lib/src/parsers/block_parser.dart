@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../block_syntaxes/blank_line_syntax.dart';
 import '../document.dart';
 import '../line.dart';
@@ -84,7 +84,7 @@ class BlockParser {
 
   void setLine(int line) => _pos = line;
 
-  List<Node> parseLines({
+  List<MarkdownNode> parseLines({
     bool disabledSetextHeading = false,
     BlockSyntax? fromSyntax,
   }) {
@@ -96,7 +96,7 @@ class BlockParser {
     // the same `_pos` again.
     final neverMatch = <BlockSyntax>[];
 
-    final blocks = <Node>[];
+    final blocks = <MarkdownNode>[];
     while (!isDone) {
       for (final syntax in blockSyntaxes) {
         if (dirtyPosition == _pos && neverMatch.contains(syntax)) {

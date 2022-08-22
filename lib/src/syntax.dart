@@ -4,7 +4,7 @@
 
 import 'package:source_span/source_span.dart';
 
-import 'ast.dart';
+import 'markdown/markdown_ast.dart';
 import 'line.dart';
 import 'parsers/block_parser.dart';
 import 'parsers/inline_parser.dart';

@@ -4,7 +4,7 @@
 
 import 'package:source_span/source_span.dart';
 
-import 'ast.dart';
+import 'markdown/markdown_ast.dart';
 import 'document.dart';
 import 'patterns.dart';
 import 'syntax.dart';
@@ -29,14 +29,14 @@ String markdownToMarkdown(
   return ReverseRenderer(markdown).render(nodes);
 }
 
-class ReverseRenderer implements NodeVisitor {
+class ReverseRenderer implements MarkdownNodeVisitor {
   String _markdown;
 
   ReverseRenderer(String markdown)
       : _markdown =
             markdown.replaceAll(RegExp('[^$whitespaceCharacters]'), ' ');
 
-  String render(List<Node> nodes) {
+  String render(List<MarkdownNode> nodes) {
     for (final node in nodes) {
       node.accept(this);
     }

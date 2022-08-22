@@ -4,7 +4,7 @@
 
 import 'package:source_span/source_span.dart';
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../charcode.dart';
 import '../extensions.dart';
 import 'link_syntax.dart';
@@ -25,7 +25,7 @@ class ImageSyntax extends LinkSyntax {
     String? title, {
     required List<SourceSpan> markers,
     required List<SourceSpan> plainTextChildren,
-    required List<Node> Function() getChildren,
+    required List<MarkdownNode> Function() getChildren,
   }) {
     markers.insertAll(1, plainTextChildren);
     final description = getChildren().map((node) {

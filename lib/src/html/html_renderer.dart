@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../document.dart';
 import '../syntax.dart';
 import 'html_ast.dart';
@@ -94,7 +94,7 @@ String markdownToHtml(
 
 /// Renders [nodes] to HTML.
 String renderToHtml(
-  List<Node> nodes, {
+  List<MarkdownNode> nodes, {
   bool encodeHtml = true,
 }) {
   final htmlNodes = HtmlTransformer(encodeHtml: encodeHtml).transform(nodes);

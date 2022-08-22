@@ -4,7 +4,7 @@
 
 import 'package:source_span/source_span.dart';
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../line.dart';
 import '../parsers/block_parser.dart';
 import '../patterns.dart';
@@ -117,7 +117,7 @@ class FootnoteReferenceSyntax extends BlockSyntax {
     return lines;
   }
 
-  List<Node> _parseChildren(List<Line> lines) {
+  List<MarkdownNode> _parseChildren(List<Line> lines) {
     if (!enableParagraph) {
       return _toUnparsedContent(lines);
     }
@@ -154,7 +154,7 @@ class FootnoteReferenceSyntax extends BlockSyntax {
     return paragraphs;
   }
 
-  List<Node> _toUnparsedContent(List<Line> lines) => lines
+  List<MarkdownNode> _toUnparsedContent(List<Line> lines) => lines
       .toNodes(
         (e) => UnparsedContent.fromSpan(e),
         trimLeft: true,

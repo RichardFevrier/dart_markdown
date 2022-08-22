@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../extensions.dart';
 import 'html_ast.dart';
 
-class HtmlTransformer implements NodeVisitor {
+class HtmlTransformer implements MarkdownNodeVisitor {
   final bool encodeHtml;
 
   final _tree = <_TreeElement>[];
@@ -18,7 +18,7 @@ class HtmlTransformer implements NodeVisitor {
     this.encodeHtml = false,
   });
 
-  List<HtmlNode> transform(List<Node> nodes) {
+  List<HtmlNode> transform(List<MarkdownNode> nodes) {
     _tree
       ..clear()
       ..add(_TreeElement());
@@ -47,7 +47,7 @@ class HtmlTransformer implements NodeVisitor {
   }
 
   @override
-  bool visitElementBefore(Element element) {
+  bool visitElementBefore(MarkdownElement element) {
     if (element.type == 'linkReferenceDefinition') {
       return false;
     }
@@ -82,7 +82,7 @@ class HtmlTransformer implements NodeVisitor {
   }
 
   @override
-  void visitElementAfter(Element element) {
+  void visitElementAfter(MarkdownElement element) {
     final current = _tree.removeLast();
     final type = element.type;
     final attributes = element.attributes;
@@ -214,7 +214,7 @@ class HtmlTransformer implements NodeVisitor {
     _lastVisitElement = null;
   }
 
-  bool _isSelfClosing(Element element) =>
+  bool _isSelfClosing(MarkdownElement element) =>
       [
         'image',
         'thematicBreak',
@@ -224,7 +224,7 @@ class HtmlTransformer implements NodeVisitor {
 }
 
 class _TreeElement {
-  final Element? element;
+  final MarkdownElement? element;
   final children = <HtmlNode>[];
 
   _TreeElement([this.element]);

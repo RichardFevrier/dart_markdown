@@ -4,7 +4,7 @@
 
 import 'package:source_span/source_span.dart';
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../extensions.dart';
 import '../parsers/block_parser.dart';
 import '../patterns.dart';
@@ -60,7 +60,7 @@ class AtxHeadingSyntax extends BlockSyntax {
 
     parser.advance();
 
-    final children = <Node>[]..addIfNotNull(contentSpan != null
+    final children = <MarkdownNode>[]..addIfNotNull(contentSpan != null
         ? UnparsedContent.fromSpan(contentSpan.trim())
         : null);
 

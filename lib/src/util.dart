@@ -5,7 +5,7 @@
 import 'package:source_span/source_span.dart';
 import '../assets/case_folding.dart';
 import '../assets/html_entities.dart';
-import 'ast.dart';
+import 'markdown/markdown_ast.dart';
 import 'line.dart';
 
 /// One or more whitespace, for compressing.
@@ -25,7 +25,7 @@ String normalizeLinkLabel(String label) {
 
 /// Generates a valid HTML anchor from the inner text of [element].
 // TODO(Zhiguang): Support unicode text.
-String generateAnchorHash(List<Node> nodes) => nodes
+String generateAnchorHash(List<MarkdownNode> nodes) => nodes
     .map((e) => e.textContent
         .toLowerCase()
         .trim()

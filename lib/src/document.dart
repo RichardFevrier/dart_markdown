@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'ast.dart';
+import 'markdown/markdown_ast.dart';
 import 'block_syntaxes/atx_heading_syntax.dart';
 import 'block_syntaxes/blank_line_syntax.dart';
 import 'block_syntaxes/blockquote_syntax.dart';
@@ -167,11 +167,11 @@ class Document {
 
   final linkReferences = <String, LinkReference>{};
 
-  final _footnoteReferences = <String, Element>{};
+  final _footnoteReferences = <String, MarkdownElement>{};
 
   int _totalFootnote = 0;
 
-  void addFootnoteReference(String label, Element element) {
+  void addFootnoteReference(String label, MarkdownElement element) {
     _footnoteReferences.putIfAbsent(label, () => element);
   }
 
@@ -187,13 +187,13 @@ class Document {
   }
 
   /// Parses the given string of Markdown to a series of AST nodes.
-  List<Node> parseLines(String text) {
+  List<MarkdownNode> parseLines(String text) {
     final nodes = BlockParser(stringToLines(text), this).parseLines();
     _parseInlineContent(nodes);
     return nodes;
   }
 
-  void _parseInlineContent(List<Node> nodes, [Element? parentElement]) {
+  void _parseInlineContent(List<MarkdownNode> nodes, [MarkdownElement? parentElement]) {
     final unparsedSegments = <UnparsedContent>[];
 
     for (var i = 0; i < nodes.length; i++) {
@@ -219,7 +219,7 @@ class Document {
           );
           i -= unparsedSegments.length - inlineNodes.length;
         }
-      } else if (node is Element) {
+      } else if (node is MarkdownElement) {
         if (_paragraphDisabled && node.type == 'paragraph') {
           nodes.replaceRange(i, i + 1, node.children);
           i -= 1;

@@ -6,14 +6,14 @@ library dart_markdown;
 
 import 'src/version.dart';
 
-export 'src/ast.dart';
+export 'src/markdown/markdown_ast.dart';
 export 'src/document.dart';
 export 'src/line.dart';
 export 'src/parsers/block_parser.dart';
 export 'src/parsers/inline_parser.dart';
 export 'src/syntax.dart';
-export 'src/to_html/html_ast.dart';
-export 'src/to_html/html_renderer.dart';
-export 'src/to_html/html_transformer.dart';
+export 'src/html/html_ast.dart';
+export 'src/html/html_renderer.dart';
+export 'src/html/html_transformer.dart';
 
 const version = packageVersion;

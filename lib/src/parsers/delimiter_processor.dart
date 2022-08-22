@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../charcode.dart';
 import '../extensions.dart';
 import '../inline_syntaxes/delimiter_syntax.dart';
@@ -232,15 +232,15 @@ class DelimiterProcessor {
     _delimiterStack.removeRange(stackBottom + 1, _delimiterStack.length);
   }
 
-  /// Merge `_backslashEscape` [Element] into it's parent [Element]
-  void _mergeBackslashEscape(Node node) {
-    if (node is! Element || node.children.isEmpty) {
+  /// Merge `_backslashEscape` [MarkdownElement] into it's parent [MarkdownElement]
+  void _mergeBackslashEscape(MarkdownNode node) {
+    if (node is! MarkdownElement || node.children.isEmpty) {
       return;
     }
 
     for (var i = 0; i < node.children.length; i++) {
       final child = node.children[i];
-      if (child is Element && child.type == '_backslashEscape') {
+      if (child is MarkdownElement && child.type == '_backslashEscape') {
         node.markers.addWithOrder(child.markers.first);
         node.children.replaceRange(i, i + 1, child.children);
         if (child.children.isNotEmpty) {

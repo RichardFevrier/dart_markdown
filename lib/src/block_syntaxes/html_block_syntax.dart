@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ast.dart';
+import '../markdown/markdown_ast.dart';
 import '../line.dart';
 import '../parsers/block_parser.dart';
 import '../patterns.dart';

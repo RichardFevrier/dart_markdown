@@ -4,21 +4,21 @@
 
 import 'package:source_span/source_span.dart';
 
-import 'extensions.dart';
+import '../extensions.dart';
 
 typedef Resolver = InlineObject? Function(String name, [String? title]);
 
 /// Base class for Markdown AST item such as [Element] and [Text].
-abstract class Node {
+abstract class MarkdownNode {
   String get textContent;
 
-  void accept(NodeVisitor visitor);
+  void accept(MarkdownNodeVisitor visitor);
 
   Map<String, dynamic> toMap();
 }
 
 /// An AST node that can contain other nodes.
-abstract class Element<T extends Node> implements Node {
+abstract class MarkdownElement<T extends MarkdownNode> implements MarkdownNode {
   /// Such as `headline`
   final String type;
 
@@ -33,7 +33,7 @@ abstract class Element<T extends Node> implements Node {
     return children.map((child) => child.textContent).join();
   }
 
-  const Element(
+  const MarkdownElement(
     this.type, {
     required this.isBlock,
     required this.markers,
@@ -42,7 +42,7 @@ abstract class Element<T extends Node> implements Node {
   });
 
   @override
-  void accept(NodeVisitor visitor) {
+  void accept(MarkdownNodeVisitor visitor) {
     if (visitor.visitElementBefore(this)) {
       if (children.isNotEmpty) {
         for (final child in children) {
@@ -74,11 +74,11 @@ abstract class Element<T extends Node> implements Node {
 }
 
 /// A block element which should be created by [BlockParser].
-class BlockElement extends Element {
+class BlockElement extends MarkdownElement {
   const BlockElement(
     String type, {
     List<SourceSpan> markers = const [],
-    List<Node> children = const [],
+    List<MarkdownNode> children = const [],
     Map<String, String> attributes = const {},
   }) : super(
           type,
@@ -90,10 +90,10 @@ class BlockElement extends Element {
 }
 
 /// A base type for [InlineElement] and [Text].
-abstract class InlineObject implements Node {}
+abstract class InlineObject implements MarkdownNode {}
 
 /// A inline element which should be created by [InlineParser].
-class InlineElement extends Element<InlineObject> implements InlineObject {
+class InlineElement extends MarkdownElement<InlineObject> implements InlineObject {
   const InlineElement(
     String type, {
     List<SourceSpan> markers = const [],
@@ -132,7 +132,7 @@ class Text extends SourceSpanBase implements InlineObject {
   }
 
   @override
-  void accept(NodeVisitor visitor) => visitor.visitText(this);
+  void accept(MarkdownNodeVisitor visitor) => visitor.visitText(this);
 
   Text(
     String text, {
@@ -243,4 +243,4 @@ abstract class Visitor<T, E> {
   void visitText(T text);
 }
 
-abstract class NodeVisitor extends Visitor<Text, Element> {}
+abstract class MarkdownNodeVisitor extends Visitor<Text, MarkdownElement> {}
